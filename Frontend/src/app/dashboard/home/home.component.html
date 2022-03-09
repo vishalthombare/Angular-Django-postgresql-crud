@@ -1,0 +1,185 @@
+<div class="container">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 10px;">
+                <div class="card">                    
+                    <div class="row ">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="new_entry_title">
+                            <div class="header">
+                                <h2>
+                                    <strong>Customer List</strong>
+                                </h2>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="btn_list" style="text-align: right;">
+                            <div class="header">
+                                <h2>
+                                    <button class="btn btn-primary btn-rounded waves-effect" type="button"
+                                        (click)="showList();"><i class="fa fa-calendar"></i>  Customer List</button>
+                                </h2>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="list_title">
+                            <div class="header">
+                                <h2>
+                                    <strong>List of Customer</strong>
+                                </h2>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="btn_new_entry"
+                            style="text-align: right;">
+                            <div class="header">
+                                <h2>
+                                    <button class="btn btn-primary btn-rounded waves-effect" type="button"
+                                        (click)="showNewEntry();"><i class="fa  fa-plus"></i>  Add New Customer</button>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="new_entry_form">
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <form [formGroup]="CustomerForm" (ngSubmit)="onSubmit()">
+                        <div class="card">
+                            <div class="body">
+                                <div class="row clearfix">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-8">
+                                        <div class="form-group">
+                                           <mat-label>Customer Name<i style="color: red;">*</i></mat-label>
+                                            <mat-form-field class="example-full-width" appearance="outline">
+                                                <input matInput formControlName="customer_name" placeholder="Customer Name" required>
+                                                <mat-error *ngIf="CustomerForm.controls['customer_name'].hasError('required')">Customer Name is mandatory.</mat-error>
+                                                <mat-error *ngIf="CustomerForm.controls['customer_name'].hasError('pattern')">Character(s) are not allowed.</mat-error>
+                                                <mat-error *ngIf="CustomerForm.controls['customer_name'].hasError('maxlength')">Maximum 20 characters.</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-8">
+                                        <div class="form-group">
+                                           <mat-label>Address<i style="color: red;">*</i></mat-label>
+                                            <mat-form-field class="example-full-width" appearance="outline">
+                                                <input matInput formControlName="customer_address" placeholder="Address" required>
+                                                <mat-error *ngIf="CustomerForm.controls['customer_address'].hasError('required')">Address is mandatory.</mat-error>
+                                                <mat-error *ngIf="CustomerForm.controls['customer_address'].hasError('pattern')">Character(s) are not allowed.</mat-error>
+                                                <mat-error *ngIf="CustomerForm.controls['customer_address'].hasError('maxlength')">Maximum 20 characters.</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-8">
+                                        <div class="form-group">
+                                           <mat-label>Phone Number<i style="color: red;">*</i></mat-label>
+                                            <mat-form-field class="example-full-width" appearance="outline">
+                                                <input matInput formControlName="customer_phone" placeholder="Phone Number" required>
+                                                <mat-error *ngIf="CustomerForm.controls['customer_phone'].hasError('required')">Phone Number is mandatory.</mat-error>
+                                                <mat-error *ngIf="CustomerForm.controls['customer_phone'].hasError('pattern')">Number Not Valid</mat-error>
+                                                <mat-error *ngIf="CustomerForm.controls['customer_phone'].hasError('maxlength')">Maximum 10 characters.</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="body" style="text-align: center;">
+                                <div class="button-demo">
+                                    <button class="btn btn-primary mr5" type="submit" id="submit_btn" [disabled]="CustomerForm.invalid">{{submitButton}}</button>
+                                    <a mat-raised-button onclick="location.reload(true);" class="btn btn-danger">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Listing Page -->
+    <div id="list_form">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="body">
+                        <div class="table-responsive">
+                            <div class="row clearfix">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <div class="dt-buttons btn-group flex-wrap">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="text-align: right;">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>
+                                        <i class="fa fa-search" aria-hidden="true"></i> 
+                                        Search
+                                        </mat-label>
+                                            <input matInput (keyup)='tbl_FilterDatatable($event.target.value)'>    
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <mat-table #table [dataSource]="CustomerData" matSort class="mat-cell">
+                                <ng-container matColumnDef="actions">
+                                    <mat-header-cell *matHeaderCellDef style="color: white;">Actions</mat-header-cell>
+                                    <mat-cell *matCellDef="let row;">                                        
+                                        <span>
+                                            <button class="btn tblActnBtn h-auto" data-toggle="modal" data-target="#editModal" (click)="viewAllMasterData(row)">
+                                                <i class="material-icons">visibility</i>
+                                            </button>
+                                            <button  class="btn tblActnBtn h-auto" data-toggle="modal" data-target="#editModal" (click)="editCompanyData(row)">
+                                                <i class="material-icons">mode_edit</i>
+                                            </button>
+                                            <button  class="btn tblActnBtn h-auto" (click)="deleteCompanyData(row.id)">
+                                                <i class="material-icons">delete</i>
+                                            </button>
+                                        </span>
+                                    </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="id">
+                                    <mat-header-cell class="mat_cell" *matHeaderCellDef mat-sort-header style="color: white;">ID</mat-header-cell>
+                                    <mat-cell class="mat_cell" *matCellDef="let row"> {{row.id}}</mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="customer_name">
+                                    <mat-header-cell class="mat_cell" *matHeaderCellDef mat-sort-header style="color: white;">Customer Name</mat-header-cell>
+                                    <mat-cell class="mat_cell" *matCellDef="let row"> {{row.customer_name}}</mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="customer_address">
+                                    <mat-header-cell mat-header-cell *matHeaderCellDef style="color: white;">Address</mat-header-cell>
+                                    <mat-cell mat-cell *matCellDef="let row" > {{row.customer_address}}</mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="customer_phone">
+                                    <mat-header-cell mat-header-cell *matHeaderCellDef style="color: white;">Phone</mat-header-cell>
+                                    <mat-cell mat-cell *matCellDef="let row" > {{row.customer_phone}}</mat-cell>
+                                </ng-container>
+
+                                <mat-header-row *matHeaderRowDef="displayColumns" style="background-color:#666666;"></mat-header-row>
+
+                                <mat-row *matRowDef="let row; columns: displayColumns;" [style.cursor]="'pointer'" matRipple></mat-row>
+
+                            </mat-table>
+
+                            <mat-paginator #CompanyMasterPaginator="matPaginator" [pageSizeOptions]="[ 10, 15, 20]" [showFirstLastButtons]="true">
+                            </mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</div>
+
